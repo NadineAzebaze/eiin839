@@ -4,6 +4,11 @@ using System.IO;
 using System.Net;
 using System.Text;
 using System.Web;
+using System.Linq;
+using System.Reflection;
+using System.Threading.Tasks;
+using System.Diagnostics;
+using System.Collections.Specialized;
 
 namespace BasicServerHTTPlistener
 {
@@ -18,8 +23,8 @@ namespace BasicServerHTTPlistener
                 Console.WriteLine("A more recent Windows version is required to use the HttpListener class.");
                 return;
             }
- 
- 
+
+
             // Create a listener.
             HttpListener listener = new HttpListener();
 
@@ -49,7 +54,8 @@ namespace BasicServerHTTPlistener
             }
 
             // Trap Ctrl-C on console to exit 
-            Console.CancelKeyPress += delegate {
+            Console.CancelKeyPress += delegate
+            {
                 // call methods to close socket and exit
                 listener.Stop();
                 listener.Close();
@@ -71,7 +77,7 @@ namespace BasicServerHTTPlistener
                         documentContents = readStream.ReadToEnd();
                     }
                 }
-                
+
                 // get url 
                 Console.WriteLine($"Received request for {request.Url}");
 
@@ -96,11 +102,16 @@ namespace BasicServerHTTPlistener
 
                 Console.WriteLine(request.Url.Query);
 
+                NameValueCollection requests = HttpUtility.ParseQueryString(request.Url.Query);
                 //parse params in url
-                Console.WriteLine("param1 = " + HttpUtility.ParseQueryString(request.Url.Query).Get("param1"));
+                foreach (String s in HttpUtility.ParseQueryString(request.Url.Query))
+                {
+                    Console.WriteLine("{0} = {1}", s, requests[s]);
+                }
+                /*Console.WriteLine("param1 = " + HttpUtility.ParseQueryString(request.Url.Query).Get("param1"));
                 Console.WriteLine("param2 = " + HttpUtility.ParseQueryString(request.Url.Query).Get("param2"));
                 Console.WriteLine("param3 = " + HttpUtility.ParseQueryString(request.Url.Query).Get("param3"));
-                Console.WriteLine("param4 = " + HttpUtility.ParseQueryString(request.Url.Query).Get("param4"));
+                Console.WriteLine("param4 = " + HttpUtility.ParseQueryString(request.Url.Query).Get("param4"));*/
 
                 //
                 Console.WriteLine(documentContents);
@@ -108,8 +119,37 @@ namespace BasicServerHTTPlistener
                 // Obtain a response object.
                 HttpListenerResponse response = context.Response;
 
+
+                //implementing the reflexion
+                /* part 1 td2*/
+                Type type = typeof(MyMethods);
+                Console.WriteLine(request.Url.Segments.Length);
+                MethodInfo method = type.GetMethod(request.Url.Segments[2]);
+                
+                    
+                /*part 2 td2*/
+                 MyMethods c = new MyMethods();
+
                 // Construct a response.
-                string responseString = "<HTML><BODY> Hello world!</BODY></HTML>";
+                string[] tabParameters = new string[requests.Count];
+                
+                for(int i = 0, j =1; i< requests.Count; i++,j++)
+                {
+                    tabParameters[i] = HttpUtility.ParseQueryString(request.Url.Query).Get("param"+j);
+                    Console.WriteLine(tabParameters[i]);
+                }
+    
+                /*tabParameters[0] = HttpUtility.ParseQueryString(request.Url.Query).Get("param1");
+                tabParameters[1] = HttpUtility.ParseQueryString(request.Url.Query).Get("param2");
+                //tabParameters[2] = HttpUtility.ParseQueryString(request.Url.Query).Get("param3");
+                //tabParameters[3] = HttpUtility.ParseQueryString(request.Url.Query).Get("param4");*/
+
+                /* part 2 td2
+                 * string responseString = c.getMethodExe(tabParameters);*/
+          
+                string responseString = (string)method.Invoke(c, tabParameters);//"<HTML><BODY> Hello world!</BODY></HTML>";
+        
+                //string responseString = c.incr(tabParameters) + "";
                 byte[] buffer = System.Text.Encoding.UTF8.GetBytes(responseString);
                 // Get a response stream and write the response to it.
                 response.ContentLength64 = buffer.Length;
@@ -117,9 +157,75 @@ namespace BasicServerHTTPlistener
                 output.Write(buffer, 0, buffer.Length);
                 // You must close the output stream.
                 output.Close();
+
             }
             // Httplistener neither stop ... But Ctrl-C do that ...
             // listener.Stop();
         }
+
+        public class MyMethods
+        {
+            public string Method1(string param1, string param2)
+            {
+                Console.WriteLine("Calling method1");
+                return "<html><body> Hello " + param1 + " et " + param2 + " </body></html>";
+            }
+
+            public string Method2(string param1, string param2)
+            {
+                Console.WriteLine("Calling method2");
+                return "<html><body> Hello " + param1 + " et " + param2 + " </body></html>";
+            }
+
+            public string Method3(string param1, string param2)
+            {
+                Console.WriteLine("Calling method3");
+                return "<html><body> Hello " + param1 + " et " + param2 + " </body></html>";
+            }
+            //part 3
+            public string incr(string param1)
+            {
+               int val = Int32.Parse(param1);
+                return (val + 1).ToString();
+            }
+
+            public string getMethodExe(String[] paramsTab)
+            {
+
+                //
+                // Set up the process with the ProcessStartInfo class.
+                // https://www.dotnetperls.com/process
+                //
+                ProcessStartInfo start = new ProcessStartInfo();
+                start.FileName = @"C:\Users\Utilisateur\source\repos\getMethodExe\bin\Debug\net6.0\getMethodExe.exe"; // Specify exe name.
+                start.Arguments = "";
+                for (int i = 0; i < paramsTab.Length; i++)
+                {
+                    start.Arguments = start.Arguments + paramsTab[i] + " "; // Specify arguments.
+                }
+                start.UseShellExecute = false;
+                start.RedirectStandardOutput = true;
+                //
+                // Start the process.
+                //
+                string result = "";
+                using (Process process = Process.Start(start))
+                {
+                    //
+                    // Read in all the text from the process with the StreamReader.
+                    //
+                    using (StreamReader reader = process.StandardOutput)
+                    {
+                        result = reader.ReadToEnd(); ;
+
+                        return result;
+                    }
+
+                }
+
+            }
+           
+        }
     }
 }
+

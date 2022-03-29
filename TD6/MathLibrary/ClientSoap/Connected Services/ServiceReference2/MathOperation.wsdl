@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="utf-8"?>
+<wsdl:definitions xmlns:wsam="http://www.w3.org/2007/05/addressing/metadata" xmlns:wsx="http://schemas.xmlsoap.org/ws/2004/09/mex" xmlns:wsap="http://schemas.xmlsoap.org/ws/2004/08/addressing/policy" xmlns:msc="http://schemas.microsoft.com/ws/2005/12/wsdl/contract" xmlns:wsp="http://schemas.xmlsoap.org/ws/2004/09/policy" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:wsu="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd" xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/" xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:tns="http://tempuri.org/" xmlns:wsa10="http://www.w3.org/2005/08/addressing" xmlns:wsaw="http://www.w3.org/2006/05/addressing/wsdl" xmlns:wsa="http://schemas.xmlsoap.org/ws/2004/08/addressing" name="MathOperation" targetNamespace="http://tempuri.org/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+  <wsdl:types>
+    <xsd:schema targetNamespace="http://tempuri.org/Imports">
+      <xsd:import schemaLocation="http://localhost:8733/Design_Time_Addresses/MathLibrary/Service1/?xsd=xsd0" namespace="http://tempuri.org/" />
+      <xsd:import schemaLocation="http://localhost:8733/Design_Time_Addresses/MathLibrary/Service1/?xsd=xsd1" namespace="http://schemas.microsoft.com/2003/10/Serialization/" />
+    </xsd:schema>
+  </wsdl:types>
+  <wsdl:message name="IMathsOperations_add_InputMessage">
+    <wsdl:part name="parameters" element="tns:add" />
+  </wsdl:message>
+  <wsdl:message name="IMathsOperations_add_OutputMessage">
+    <wsdl:part name="parameters" element="tns:addResponse" />
+  </wsdl:message>
+  <wsdl:message name="IMathsOperations_substract_InputMessage">
+    <wsdl:part name="parameters" element="tns:substract" />
+  </wsdl:message>
+  <wsdl:message name="IMathsOperations_substract_OutputMessage">
+    <wsdl:part name="parameters" element="tns:substractResponse" />
+  </wsdl:message>
+  <wsdl:message name="IMathsOperations_multiply_InputMessage">
+    <wsdl:part name="parameters" element="tns:multiply" />
+  </wsdl:message>
+  <wsdl:message name="IMathsOperations_multiply_OutputMessage">
+    <wsdl:part name="parameters" element="tns:multiplyResponse" />
+  </wsdl:message>
+  <wsdl:message name="IMathsOperations_divide_InputMessage">
+    <wsdl:part name="parameters" element="tns:divide" />
+  </wsdl:message>
+  <wsdl:message name="IMathsOperations_divide_OutputMessage">
+    <wsdl:part name="parameters" element="tns:divideResponse" />
+  </wsdl:message>
+  <wsdl:portType name="IMathsOperations">
+    <wsdl:operation name="add">
+      <wsdl:input wsaw:Action="http://tempuri.org/IMathsOperations/add" message="tns:IMathsOperations_add_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IMathsOperations/addResponse" message="tns:IMathsOperations_add_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="substract">
+      <wsdl:input wsaw:Action="http://tempuri.org/IMathsOperations/substract" message="tns:IMathsOperations_substract_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IMathsOperations/substractResponse" message="tns:IMathsOperations_substract_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="multiply">
+      <wsdl:input wsaw:Action="http://tempuri.org/IMathsOperations/multiply" message="tns:IMathsOperations_multiply_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IMathsOperations/multiplyResponse" message="tns:IMathsOperations_multiply_OutputMessage" />
+    </wsdl:operation>
+    <wsdl:operation name="divide">
+      <wsdl:input wsaw:Action="http://tempuri.org/IMathsOperations/divide" message="tns:IMathsOperations_divide_InputMessage" />
+      <wsdl:output wsaw:Action="http://tempuri.org/IMathsOperations/divideResponse" message="tns:IMathsOperations_divide_OutputMessage" />
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="BasicHttpBinding_IMathsOperations" type="tns:IMathsOperations">
+    <soap:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="add">
+      <soap:operation soapAction="http://tempuri.org/IMathsOperations/add" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="substract">
+      <soap:operation soapAction="http://tempuri.org/IMathsOperations/substract" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="multiply">
+      <soap:operation soapAction="http://tempuri.org/IMathsOperations/multiply" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="divide">
+      <soap:operation soapAction="http://tempuri.org/IMathsOperations/divide" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="MathOperation">
+    <wsdl:port name="BasicHttpBinding_IMathsOperations" binding="tns:BasicHttpBinding_IMathsOperations">
+      <soap:address location="http://localhost:8733/Design_Time_Addresses/MathLibrary/Service1/" />
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>
