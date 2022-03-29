@@ -1,9 +1,4 @@
 # EIIN839 - ECUE Service oriented computing/WS
-
-This repository contains helpers for the exercises and projects of the Service Oriented Computing / Web Services course of Polytech'Nice-Sophia.
-
-To use this repository as a base for your project, fork it (there is a button for that on the top-right corner of the Github page), and use the fork as your own project.
-
-You are also strongly advised to watch the repo (another button on the top-right corner) to be updated when modifications are pushed to it.
-
-Note : If you need help forking or syncing your fork with the main repository, you can follow [this procedure](https://docs.github.com/en/github/getting-started-with-github/fork-a-repo).
+## rendu TD6/ Bon à savoir
+- Pour tester le serveur REST utiliser ce lien (il s'agit d'un test pour l'opération de multiplication): http://localhost:8733/Design_Time_Addresses/MathsLibrary/MathsOperations/Mult?x=3&y=4
+- La solution se trouve dans le dossier MathLibrary contenu dans le dossier TD6. Elle contient le serveur SOAP dans le dossier serveurSOAP, le serveur REST dans le dossier serveurREST et le client SOAP dans le dossier clientSOAP
